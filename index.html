@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Home - Programmer101N</title>
+		<link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="assets/css/styles.css" />
+	</head>
+	<body>
+		<div class="img-container">
+			<img
+				class="meteor hero"
+				width="300"
+				src="assets/images/asteroid.svg"
+				alt=""
+			/>
+			<img
+				class="meteor"
+				width="200"
+				src="assets/images/asteroid.svg"
+				alt=""
+			/>
+			<img
+				class="meteor"
+				width="150"
+				src="assets/images/asteroid.svg"
+				alt=""
+			/>
+
+			<img class="rock" width="175" src="assets/images/rock.svg" alt="" />
+			<img class="rock" width="150" src="assets/images/rock.svg" alt="" />
+			<img class="rock" width="100" src="assets/images/rock.svg" alt="" />
+            <img class="rock" width="75" src="assets/images/rock.svg" alt="" />
+            
+            <img class="star" width="25" src="assets/images/star.svg" alt=""/>
+            <img class="star" width="25" src="assets/images/star.svg" alt=""/>
+            <img class="star" width="25" src="assets/images/star.svg" alt=""/>
+            <img class="star" width="25" src="assets/images/star.svg" alt=""/>
+            <img class="star" width="25" src="assets/images/star.svg" alt=""/>
+            <img class="star" width="25" src="assets/images/star.svg" alt=""/>
+            <img class="star" width="25" src="assets/images/star.svg" alt=""/>
+            <img class="star" width="25" src="assets/images/star.svg" alt=""/>
+            <img class="star" width="25" src="assets/images/star.svg" alt=""/>
+		</div>
+		<div class="container d-flex justify-content-center align-items-end">
+			<h1>Meteor</h1>
+		</div>
+	</body>
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/js/anime.min.js"></script>
+
+	<script>
+
+        $(".star").each((i, e) => {
+            $(e).css('left', Math.round(Math.random() * 100) + "%");
+            $(e).css('top', Math.round(Math.random() * 100) + "%");
+        });
+
+        function animateText(text){
+            const timeline = new anime.timeline({
+                duration: 500,
+            });
+
+            timeline.add({
+                targets: '.container h1',
+                opacity: [1, 0],
+                complete: () => {
+                    $('.container h1').text(text);
+                }
+            });
+
+            timeline.add({
+                targets: '.container h1',
+                opacity: [0, 1],
+                complete: () => {
+                    $('.container h1').text(text);
+                }
+            });
+        }
+
+		$(".img-container img").click((e) => {
+            const hero = $('.hero');
+			anime({
+				targets: '.hero',
+				duration: 500,
+				left: $(e.target).css("left"),
+				top: $(e.target).css("top"),
+				width: $(e.target).attr("width"),
+				begin: (e) => {
+					hero.removeClass("hero");
+				},
+				easing: "linear",
+			});
+
+			anime({
+				targets: e.target,
+				duration: 500,
+				left: hero.css("left"),
+				top: hero.css("top"),
+				width: hero.width(),
+				begin: (e) => {
+					const target = $(e.animatables[0].target);
+					if (target.hasClass("rock")) {
+						animateText("Asteroid");
+					} else if(target.hasClass("star")) {
+						animateText("Star");
+					}else{
+                        animateText("Meteor");
+                    }
+					target.addClass("hero");
+				},
+				easing: "linear",
+			});
+		});
+	</script>
+</html>
